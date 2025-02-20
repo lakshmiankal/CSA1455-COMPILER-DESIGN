@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+#define MAX_LEN 100
+
+void identifyToken(char *token) {
+    if (isalpha(token[0])) {
+        printf("Identifier: %s\n", token);
+    } else if (isdigit(token[0])) {
+        printf("Constant: %s\n", token);
+    } else {
+        printf("Operator: %s\n", token);
+    }
+}
+
+int main() {
+    char input[MAX_LEN];
+    char token[MAX_LEN];
+    int i = 0, j = 0;
+
+    printf("Enter a string of code: ");
+    fgets(input, MAX_LEN, stdin);
+
+    while (input[i] != '\0') {
+        if (isspace(input[i])) {
+            if (j > 0) {
+                token[j] = '\0';
+                identifyToken(token);
+                j = 0;
+            }
+        } else {
+            token[j++] = input[i];
+        }
+        i++;
+    }
+
+    if (j > 0) {
+        token[j] = '\0';
+        identifyToken(token);
+    }
+
+    return 0;
+}
+OUTPUT:
+enter the string : a = b + c * e + 100 
+identifiers : a b c e 
+constants : 100 
+operators : = + * + 
